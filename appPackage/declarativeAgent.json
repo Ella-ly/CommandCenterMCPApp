@@ -69,7 +69,7 @@
                 "widget": {
                   "type": "insights",
                   "size": "small",
-                  "prompt": "Show a donut chart breaking down my active Azure DevOps work items by type (Bug, Task, User Story) for the current sprint.",
+                  "prompt": "Show a pie chart breaking down my active Azure DevOps work items by type (Bug, Task, User Story) for the current sprint.",
                   "value_description": "My work item mix this sprint"
                 }
               }
