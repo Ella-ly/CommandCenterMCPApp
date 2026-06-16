@@ -33,23 +33,45 @@ sandboxed `mcpWidget` iframe.
 | `connect_azure_devops` | Validate + store PAT (called from widget Connect button) |
 | `disconnect_azure_devops` | Clear PAT, return to demo mode |
 
-## Run locally
+## Quickstart (clone → run → tunnel → zip)
 
 ```bash
-cd widgets && npm install && npm run build  # → assets/dashboard.html
-cd ../server && npm install
-cp .env.example .env
-npm start                                    # → http://localhost:8788
+# 1. Clone
+git clone https://github.com/Ella-ly/CommandCenterMCPApp.git
+cd CommandCenterMCPApp
+
+# 2. Install dependencies (root + server + widgets)
+npm run install:all
+
+# 3. Build the widget → generates assets/dashboard.html (REQUIRED)
+#    assets/ is git-ignored (build output), so you MUST build after cloning,
+#    otherwise the server has no widget HTML to serve.
+npm run build:widgets
+
+# 4. Configure env
+cp server/.env.example server/.env
+
+# 5. Start the server (Terminal A — keep it running)
+npm start                                  # → http://localhost:8788
+
+# 6. Start a tunnel (Terminal B — keep it running)
+cloudflared tunnel --url http://localhost:8788
+#   Note the printed https://xxx.trycloudflare.com URL.
+
+# 7. Wire the tunnel URL into two places, then restart the server (Terminal A):
+#    - appPackage/ai-plugin.json → runtimes[0].spec.url = https://xxx.trycloudflare.com/mcp
+#    - server/.env               → SERVER_BASE_URL=https://xxx.trycloudflare.com
+
+# 8. Package the sideload zip
+cd appPackage && zip -r ../dist/EngineeringCommandCenterApp.zip . -x '*.DS_Store'
+#    → dist/EngineeringCommandCenterApp.zip
 ```
 
-## Sideload to M365 Copilot
+Then upload `dist/EngineeringCommandCenterApp.zip` in Copilot → Agents → Add app from file.
 
-1. Expose 8788 publicly (cloudflared, devtunnel, ngrok).
-2. Edit `appPackage/ai-plugin.json` → `runtimes[0].spec.url` to `https://…/mcp`.
-3. Edit `server/.env` → `SERVER_BASE_URL=https://…`.
-4. Restart server.
-5. `cd appPackage && zip -r ../dist/EngineeringCommandCenterApp.zip .`
-6. Upload zip in Copilot → Agents → Add app from file.
+> Note: cloudflared quick tunnels are ephemeral — the URL changes on every
+> restart. Re-do step 7 (and re-zip) whenever the tunnel URL changes.
+
 
 ## Smoke test
 
