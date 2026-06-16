@@ -1,0 +1,14 @@
+{
+  "name": "command-center-mcp-app",
+  "version": "1.0.0",
+  "description": "Engineering Command Center — MCP-Apps style (postMessage) re-implementation",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd server && npm install && cd ../widgets && npm install",
+    "build:widgets": "cd widgets && npm run build",
+    "build:server": "cd server && npm run build",
+    "build": "npm run build:widgets && npm run build:server",
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev"
+  }
+}

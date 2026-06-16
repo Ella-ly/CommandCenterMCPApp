@@ -1,0 +1,123 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.6/schema.json",
+  "version": "v1.6",
+  "name": "Engineering Command Center",
+  "description": "Your Azure DevOps cockpit for the MetaOS project. See your active work items, pull requests awaiting review, and the latest pipeline runs in one live, interactive dashboard, then let Copilot triage your day, draft updates, and chase down failing builds.",
+  "instructions": "You are the Engineering Command Center agent for the MetaOS project on Azure DevOps. Help engineers and PMs run their day: surface their highest-impact work items, pull requests that need their review, and the health of recent pipeline runs.\n\nWhen helping users:\n1. Use show_engineering_dashboard to render the interactive dashboard whenever the user wants an overview of their work, PRs, or builds.\n2. If the user wants to connect their Azure DevOps account, call connect_azure_devops with the org, project, and PAT they provide — or instruct them to use the Connect form inside the rendered widget.\n3. When triaging, prioritize P1 bugs, blocking work items, and pull requests that have been waiting longest for review.\n4. For failing or partially succeeded pipeline runs, summarize the likely owner and suggest a concrete next step.\n5. Keep responses concise and action-oriented; prefer a short prioritized list over prose.\n6. When the user asks to draft a status update or standup note, base it strictly on their actual work items, PRs, and builds.\n\nNever invent work item numbers, PR titles, or build results that are not present in the data.",
+  "conversation_starters": [
+    {
+      "title": "My dashboard",
+      "text": "Show me my Engineering Command Center dashboard."
+    },
+    {
+      "title": "Connect Azure DevOps",
+      "text": "I want to connect my Azure DevOps account so the dashboard shows live data."
+    },
+    {
+      "title": "Plan my day",
+      "text": "What should I focus on first across my work items and pull requests today?"
+    },
+    {
+      "title": "Reviews waiting on me",
+      "text": "Which pull requests are waiting for my review, oldest first?"
+    },
+    {
+      "title": "Build health",
+      "text": "Summarize recent pipeline runs and flag anything that failed."
+    },
+    {
+      "title": "Draft standup",
+      "text": "Draft a standup update from my active work items and pull requests."
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_1",
+      "file": "ai-plugin.json"
+    }
+  ],
+  "x-layout_manifest": {
+    "tabs": [
+      {
+        "title": "Command Center",
+        "layout": [
+          {
+            "row": [
+              {
+                "widget": {
+                  "type": "mcpWidget",
+                  "namespace": "engineeringcommandcenter",
+                  "tool_name": "show_engineering_dashboard",
+                  "size": "large",
+                  "prompt": "show_engineering_dashboard",
+                  "value_description": "Connect to Azure DevOps to see your live work items, pull requests, and pipeline runs."
+                }
+              }
+            ]
+          },
+          {
+            "row": [
+              {
+                "widget": {
+                  "type": "priorities",
+                  "size": "medium",
+                  "prompt": "Generate my highest-priority engineering work for today based on my active Azure DevOps work items and pull requests awaiting my review. Rank P1 bugs and blocking items first, then PRs that have been waiting longest. Exclude completed or closed items.",
+                  "value_description": "Today's top engineering priorities"
+                }
+              },
+              {
+                "widget": {
+                  "type": "insights",
+                  "size": "small",
+                  "prompt": "Show a donut chart breaking down my active Azure DevOps work items by type (Bug, Task, User Story) for the current sprint.",
+                  "value_description": "My work item mix this sprint"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Delivery Insights",
+        "layout": [
+          {
+            "row": [
+              {
+                "widget": {
+                  "type": "insights",
+                  "size": "large",
+                  "prompt": "Show a line chart of the MetaOS pipeline build pass rate over the past 4 weeks so I can see whether build health is improving or regressing.",
+                  "value_description": "Build pass rate trend"
+                }
+              }
+            ]
+          },
+          {
+            "row": [
+              {
+                "widget": {
+                  "type": "insights",
+                  "size": "large",
+                  "prompt": "Show a vertical bar chart of average pull request cycle time (hours from creation to completion) per week for the MetaOS repositories over the last 4 weeks.",
+                  "value_description": "PR cycle time"
+                }
+              }
+            ]
+          },
+          {
+            "row": [
+              {
+                "widget": {
+                  "type": "priorities",
+                  "size": "large",
+                  "prompt": "List the pull requests across MetaOS repositories that are waiting on my review, ordered by how long they have been open, so I can clear my review backlog.",
+                  "value_description": "Review backlog"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

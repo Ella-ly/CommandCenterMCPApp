@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "devPreview",
+  "version": "1.0.0",
+  "id": "d83a4b21-1f29-4b3e-9c5c-1c4f23b7a901",
+  "developer": {
+    "name": "MetaOS Engineering",
+    "websiteUrl": "https://dev.azure.com",
+    "privacyUrl": "https://privacy.microsoft.com/privacystatement",
+    "termsOfUseUrl": "https://www.microsoft.com/legal/terms-of-use"
+  },
+  "name": {
+    "short": "Engineering Cmd Center",
+    "full": "Engineering Command Center (MCP Apps)"
+  },
+  "description": {
+    "short": "Live Azure DevOps cockpit: work items, PRs, and pipeline health.",
+    "full": "Engineering Command Center brings your Azure DevOps work into Microsoft 365 Copilot. See your active work items, pull requests awaiting review, and recent pipeline runs in a live, interactive dashboard, then let Copilot triage your day, draft standup updates, and chase down failing builds. Built with the MCP Apps SDK so the widget renders via postMessage — no outbound fetch needed."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#0078D4",
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "declarativeAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  }
+}

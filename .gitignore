@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.build/
+assets/
+server/.env
+server/.secrets.json
+server/.tmp/
+*.log
+.DS_Store
