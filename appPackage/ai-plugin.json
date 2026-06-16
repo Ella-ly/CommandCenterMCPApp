@@ -32,7 +32,7 @@
         "disconnect_azure_devops"
       ],
       "spec": {
-        "url": "https://guestbook-student-rise-bottle.trycloudflare.com/mcp",
+        "url": "https://YOUR-TUNNEL.trycloudflare.com/mcp",
         "mcp_tool_description": {
           "tools": [
             {
